@@ -1,10 +1,14 @@
 'use client';
 
-import { auth, useAuth } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 import React from 'react';
 
-const RootPage = () => {
-    return <div>sss</div>;
+const SetupPage = () => {
+    return (
+        <div className="p-4">
+            <UserButton afterSignOutUrl="/" />
+        </div>
+    );
 };
 
-export default RootPage;
+export default SetupPage;
