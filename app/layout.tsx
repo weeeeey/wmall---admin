@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import ModalProvider from '@/providers/modal-provider';
+import ToasterProvider from '@/providers/toast-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
             <html lang="en">
                 <body className={inter.className}>
                     {/* provider를 통해 렌더링 될 때만 실행하는므로 서버 사이드에서 use client를 가져왔을 때 생긴느 하이드레이션 에러 막아줌  */}
+                    <ToasterProvider />
                     <ModalProvider />
                     {children}
                 </body>
