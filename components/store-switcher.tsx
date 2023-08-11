@@ -28,6 +28,9 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 interface StoreSwitcherProps extends PopoverTriggerProps {
     items: Record<string, any>[];
 }
+// interface StoreSwitcherProps extends PopoverTriggerProps {
+//     items: Store[];
+// }
 
 export default function StoreSwitcher({
     className,
@@ -37,7 +40,7 @@ export default function StoreSwitcher({
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
-    const { isOpen, onOpen, onClose } = useStoreModal();
+    const { onOpen: onModalOpen } = useStoreModal();
 
     const frameworks = items.map((item) => ({
         label: item.name,
@@ -101,7 +104,7 @@ export default function StoreSwitcher({
                                 className="cursor-pointer"
                                 onSelect={() => {
                                     setOpen(false);
-                                    onOpen();
+                                    onModalOpen();
                                 }}
                             >
                                 <PlusCircle className="mr-2 h-5 w-5" />
