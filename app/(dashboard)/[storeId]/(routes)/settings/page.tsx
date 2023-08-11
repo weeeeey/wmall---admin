@@ -1,9 +1,10 @@
 import Heading from '@/components/ui/heading';
-import React from 'react';
 
 import { Trash } from 'lucide-react';
 import client from '@/lib/prismadb';
 import SettingsForm from './components/settings-form';
+import { redirect } from 'next/navigation';
+import { auth } from '@clerk/nextjs';
 
 interface IParams {
     params: {
@@ -12,24 +13,25 @@ interface IParams {
 }
 
 const SettingsPage = async ({ params }: IParams) => {
+    const { userId } = auth();
+    if (!userId) {
+        redirect('/sign-in');
+    }
+
     const store = await client.store.findFirst({
         where: {
             id: params.storeId,
         },
     });
     if (!store) {
-        return <></>;
+        redirect('/');
     }
 
     return (
-        <div className="p-8 pt-6">
-            <Heading
-                icon={Trash}
-                title="Store settings"
-                description="Manage store preferences"
-                action={() => {}}
-            />
-            <SettingsForm initialStore={store} />
+        <div className="flex-col">
+            <div className="flex-1 space-y-4 p-8 pt-6">
+                <SettingsForm initialStore={store} />
+            </div>
         </div>
     );
 };

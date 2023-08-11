@@ -19,22 +19,29 @@ import client from '@/lib/prismadb';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useOrigin } from '@/hooks/use-origin';
+import { Separator } from '@/components/ui/separator';
+import Heading from '@/components/ui/heading';
+import { Trash } from 'lucide-react';
+import AlertModal from '@/components/modals/alert-modal';
+import ApiAlert from '@/components/ui/api-alert';
 
 interface SettingsForm {
     initialStore: Store;
 }
 
 const formSchema = z.object({
-    name: z
-        .string()
-        .min(1, { message: 'Write a name you wanna change' })
-        .max(50),
+    name: z.string().min(2, { message: 'Write a name least 2characters' }),
 });
 
 const SettingsForm = ({ initialStore }: SettingsForm) => {
+    const params = useParams();
     const router = useRouter();
+    const origin = useOrigin();
     const [isLoading, setIsLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -44,49 +51,97 @@ const SettingsForm = ({ initialStore }: SettingsForm) => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setIsLoading(true);
-            const res = await axios.patch(
-                `/api/stores/${initialStore.id}`,
-                values
-            );
-            toast.success('Store Update');
-        } catch (error) {
+            await axios.patch(`/api/stores/${initialStore.id}`, values);
+            router.refresh();
+            toast.success('Store updated');
+        } catch (error: any) {
             toast.error('Something went wrong');
         } finally {
             setIsLoading(false);
+        }
+    }
+    async function onDelete() {
+        try {
+            setIsLoading(true);
+            await axios.delete(`/api/stores/${initialStore.id}`);
+
             router.refresh();
+            router.push('/');
+            toast.success('Store deleted');
+        } catch (error) {
+            toast.error(
+                'Make sure you removed all products and categories first.'
+            );
+        } finally {
+            setIsLoading(false);
+            setOpen(false);
         }
     }
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8 pt-4"
-            >
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="font-medium text-sm">
-                                Name
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    className="h-10 w-[293px] "
-                                    placeholder={field.name}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+        <>
+            <AlertModal
+                isOpen={open}
+                loading={isLoading}
+                onClose={() => setOpen(false)}
+                onConfirm={onDelete}
+                description="This store will be deleted permanently"
+            />
+            <div className="flex justify-between items-center">
+                <Heading
+                    title="Store settings"
+                    description="Manage store preferences"
                 />
-                <Button type="submit" disabled={isLoading}>
-                    Save changes
+                <Button
+                    disabled={isLoading}
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => setOpen(true)}
+                >
+                    <Trash className="h-4 w-4" />
                 </Button>
-            </form>
-        </Form>
+            </div>
+            <Separator />
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8 w-full"
+                >
+                    <div className="grid grid-cols-3 gap-8">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            disabled={isLoading}
+                                            placeholder="Store name"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <Button
+                        type="submit"
+                        className="ml-auto"
+                        disabled={isLoading}
+                    >
+                        Save changes
+                    </Button>
+                </form>
+            </Form>
+            <Separator />
+            <ApiAlert
+                description={`${origin}/api/${params.storeId}`}
+                title="NEXT_PUBLIC_API_URL"
+                variant="public"
+            />
+        </>
     );
 };
 

@@ -39,3 +39,28 @@ export async function PATCH(req: Request, { params }: IParams) {
         return new NextResponse('Internal error', { status: 500 });
     }
 }
+
+export async function DELETE(req: Request, { params }: IParams) {
+    try {
+        const { userId } = auth();
+        const { storeId } = params;
+        if (!userId) {
+            return new NextResponse('Unauthorized user', { status: 401 });
+        }
+        if (!storeId) {
+            return new NextResponse('Invalid Store Id', { status: 400 });
+        }
+        const res = await client.store.deleteMany({
+            where: {
+                userId,
+                id: storeId,
+            },
+        });
+
+        return NextResponse.json(res);
+    } catch (error) {
+        console.log('[STORE_PATCH]', error);
+
+        return new NextResponse('Internal error', { status: 500 });
+    }
+}
