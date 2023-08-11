@@ -25,7 +25,7 @@ import { Separator } from '@/components/ui/separator';
 import Heading from '@/components/ui/heading';
 import { Trash } from 'lucide-react';
 import AlertModal from '@/components/modals/alert-modal';
-import ApiAlert from '@/components/ui/api-alert';
+import { ApiAlert } from '@/components/ui/api-alert';
 
 interface SettingsForm {
     initialStore: Store;
@@ -45,7 +45,7 @@ const SettingsForm = ({ initialStore }: SettingsForm) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: initialStore.name,
+            name: '',
         },
     });
     async function onSubmit(values: z.infer<typeof formSchema>) {
