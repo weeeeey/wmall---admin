@@ -1,7 +1,7 @@
 import React from 'react';
 
-const NewBillboardPage = () => {
-    return <div>NewBillboardPage</div>;
+const AddBillboards = () => {
+    return <div>AddBillboards</div>;
 };
 
-export default NewBillboardPage;
+export default AddBillboards;
