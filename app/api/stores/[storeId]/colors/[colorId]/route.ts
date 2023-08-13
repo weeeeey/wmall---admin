@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 interface IParams {
     params: {
         storeId: string;
-        sizeId: string;
+        colorId: string;
     };
 }
 
@@ -12,17 +12,17 @@ export async function PATCH(req: Request, { params }: IParams) {
     try {
         const body = await req.json();
         const { name, value } = body;
-        const { sizeId, storeId } = params;
+        const { colorId, storeId } = params;
         if (name.legnth === 0 || value.legnth === 0) {
             return new NextResponse('Invalid data', { status: 401 });
         }
-        if (!sizeId || !storeId) {
+        if (!colorId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
-        const updatedSize = await client.size.update({
+        const updatedColor = await client.color.update({
             where: {
                 storeId,
-                id: sizeId,
+                id: colorId,
             },
             data: {
                 name,
@@ -30,29 +30,28 @@ export async function PATCH(req: Request, { params }: IParams) {
             },
         });
 
-        return NextResponse.json(updatedSize);
+        return NextResponse.json(updatedColor);
     } catch (error) {
-        console.log('[SIZES_UPDATE_ERROR]', error);
+        console.log('[COLOR_UPDATE_ERROR]', error);
         return new NextResponse('Internal Error', { status: 500 });
     }
 }
 
 export async function DELETE(req: Request, { params }: IParams) {
     try {
-        const { sizeId, storeId } = params;
-        console.log(sizeId);
-        if (!sizeId || !storeId) {
+        const { colorId, storeId } = params;
+        if (!colorId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
-        const deletedSize = await client.size.delete({
+        const deletedColor = await client.color.delete({
             where: {
-                id: sizeId,
+                id: colorId,
                 storeId,
             },
         });
-        return NextResponse.json(deletedSize);
+        return NextResponse.json(deletedColor);
     } catch (error) {
-        console.log('[SIZES_DELETE_ERROR]', error);
+        console.log('[COLORS_DELETE_ERROR]', error);
         return new NextResponse('Internal Error', { status: 500 });
     }
 }

@@ -21,16 +21,16 @@ export async function POST(req: Request, { params }: IParams) {
         if (!storeId) {
             return new NextResponse('Invalid data', { status: 400 });
         }
-        const newSize = await client.size.create({
+        const newColor = await client.color.create({
             data: {
                 name,
                 value,
                 storeId,
             },
         });
-        return NextResponse.json(newSize);
+        return NextResponse.json(newColor);
     } catch (error) {
-        console.log('[SIZES_ERROR_ADD]', error);
+        console.log('[COLORS_ERROR_ADD]', error);
         return new NextResponse('Internal error', { status: 500 });
     }
 }
