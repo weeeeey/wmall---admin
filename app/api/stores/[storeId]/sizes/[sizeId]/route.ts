@@ -40,7 +40,6 @@ export async function PATCH(req: Request, { params }: IParams) {
 export async function DELETE(req: Request, { params }: IParams) {
     try {
         const { sizeId, storeId } = params;
-        console.log(sizeId);
         if (!sizeId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }

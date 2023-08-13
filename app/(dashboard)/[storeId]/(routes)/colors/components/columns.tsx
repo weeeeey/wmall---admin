@@ -1,11 +1,11 @@
 'use client';
 
-import { Size } from '@prisma/client';
+import { Color } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import CellAction from './cell-action';
 
-export const columns: ColumnDef<Size>[] = [
+export const columns: ColumnDef<Color>[] = [
     {
         accessorKey: 'name',
         header: 'Name',

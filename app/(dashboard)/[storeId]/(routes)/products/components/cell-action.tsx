@@ -1,6 +1,6 @@
 'use client';
 
-import { Color } from '@prisma/client';
+import { Product } from '@prisma/client';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 interface CellActionProps {
-    data: Color;
+    data: Product;
 }
 
 const CellAction = ({ data }: CellActionProps) => {
@@ -32,9 +32,9 @@ const CellAction = ({ data }: CellActionProps) => {
         try {
             setLoading(true);
             await axios.delete(
-                `/api/stores/${params.storeId}/colors/${data.id}`
+                `/api/stores/${params.storeId}/categories/${data.id}`
             );
-            toast.success('deleted the color');
+            toast.success('deleted the Category');
         } catch (error) {
             toast.error('Something went wrong');
         } finally {
@@ -65,7 +65,7 @@ const CellAction = ({ data }: CellActionProps) => {
                     <DropdownMenuItem
                         onClick={() => {
                             navigator.clipboard.writeText(data.id);
-                            toast.success('Copied Color ID');
+                            toast.success('Copied Category ID');
                         }}
                     >
                         <Copy className="w-4 h-4 mr-2" />

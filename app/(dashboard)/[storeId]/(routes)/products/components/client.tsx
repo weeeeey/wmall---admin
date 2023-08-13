@@ -27,7 +27,7 @@ import { useState } from 'react';
 import ApiList from '@/components/ui/api-list';
 import { Separator } from '@/components/ui/separator';
 
-interface ColorClientProps<TData, TValue> {
+interface ProductClientProps<TData, TValue> {
     params: {
         storeId: string;
     };
@@ -35,15 +35,14 @@ interface ColorClientProps<TData, TValue> {
     data: TData[];
 }
 
-const ColorClient = <TData, TValue>({
+const ProductClient = <TData, TValue>({
     params,
     columns,
     data,
-}: ColorClientProps<TData, TValue>) => {
+}: ProductClientProps<TData, TValue>) => {
     const router = useRouter();
     const pathname = usePathname();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
     const table = useReactTable({
         data,
         columns,
@@ -60,8 +59,8 @@ const ColorClient = <TData, TValue>({
         <>
             <div className="flex justify-between items-center">
                 <Heading
-                    title={`Colors  (${data.length})`}
-                    description="Manage colors for your store"
+                    title={`Categories  (${data.length})`}
+                    description="Manage Categories for your store"
                 />
                 <Button
                     className="px-4 py-1"
@@ -160,9 +159,9 @@ const ColorClient = <TData, TValue>({
                     Next
                 </Button>
             </div>
-            <ApiList entityName="colors" entityIdName="colorId" />
+            <ApiList entityName="categories" entityIdName="categoryId" />
         </>
     );
 };
 
-export default ColorClient;
+export default ProductClient;

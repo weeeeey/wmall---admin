@@ -1,13 +1,13 @@
 'use client';
 
+import React from 'react';
+
 import axios from 'axios';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import Heading from '@/components/ui/heading';
-import { Separator } from '@/components/ui/separator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,26 +18,37 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import * as z from 'zod';
 
+import { Input } from '@/components/ui/input';
+import { Billboard } from '@prisma/client';
+
 const formSchema = z.object({
-    name: z.string().min(1, { message: 'write at least two characters. ' }),
-    value: z.string().min(1, { message: 'write a value' }),
+    name: z.string().min(2, { message: 'write at least two characters. ' }),
+    billboard: z.string({
+        required_error: 'Please select billboard.',
+    }),
 });
 
-const AddBillboards = ({ params }: { params: { storeId: string } }) => {
-    const { storeId } = params;
-    if (!storeId) {
-        redirect('/');
-    }
+interface CategoryAddFormProps {
+    storeId: string;
+    billboards: Billboard[];
+}
 
+const CategoryAddForm = ({ storeId, billboards }: CategoryAddFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
-            value: '',
+            billboard: '',
         },
     });
 
@@ -46,11 +57,12 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true);
-            await axios.post(`/api/stores/${storeId}/colors`, values);
+            await axios.post(`/api/stores/${storeId}/categories`, values);
 
             toast.success('Success add');
+
             router.refresh();
-            router.push(`/${storeId}/colors`);
+            router.push(`/${storeId}/categories`);
         } catch (error) {
             toast.error('Someting went wrong');
         } finally {
@@ -58,15 +70,13 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
         }
     }
     return (
-        <div className="flex flex-col space-y-4 px-8 py-6">
-            <Heading title="Create color" description="Add a new color" />
-            <Separator />
+        <>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                 >
-                    <div className="flex justify-start items-center space-x-8">
+                    <div className="flex space-x-4 justify-start items-center">
                         <FormField
                             control={form.control}
                             name="name"
@@ -74,11 +84,7 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            {...field}
-                                            placeholder="Color name"
-                                            className="w-96"
-                                        />
+                                        <Input {...field} className="w-72" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -86,16 +92,29 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
                         />
                         <FormField
                             control={form.control}
-                            name="value"
+                            name="billboard"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Value</FormLabel>
+                                    <FormLabel>Billboard</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            {...field}
-                                            placeholder="Color value"
-                                            className="w-96"
-                                        />
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="w-72">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {billboards.map((b) => (
+                                                    <SelectItem
+                                                        key={b.id}
+                                                        value={b.id}
+                                                    >
+                                                        {b.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -107,8 +126,8 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
                     </Button>
                 </form>
             </Form>
-        </div>
+        </>
     );
 };
 
-export default AddBillboards;
+export default CategoryAddForm;

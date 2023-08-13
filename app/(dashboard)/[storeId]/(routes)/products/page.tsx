@@ -1,27 +1,32 @@
 import client from '@/lib/prismadb';
 import React from 'react';
 import { columns } from './components/columns';
-import ColorClient from './components/client';
+import ProductClient from './components/client';
 
-const ColorsPage = async ({ params }: { params: { storeId: string } }) => {
+const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     const { storeId } = params;
-    const initialColors = await client.color.findMany({
+    const initialCategories = await client.product.findMany({
         where: {
             storeId,
         },
+        include: {
+            color: true,
+            size: true,
+            category: true,
+        },
     });
-
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <ColorClient
+                <ProductClient
                     params={params}
                     columns={columns}
-                    data={initialColors}
+                    data={initialCategories}
                 />
+                {/* data-table */}
             </div>
         </div>
     );
 };
 
-export default ColorsPage;
+export default ProductsPage;
