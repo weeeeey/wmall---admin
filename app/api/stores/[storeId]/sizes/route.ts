@@ -21,10 +21,10 @@ export async function POST(req: Request, { params }: IParams) {
         if (!storeId) {
             return new NextResponse('Invalid data', { status: 400 });
         }
-        const newBillboard = await client.billboard.create({
+        const newBillboard = await client.size.create({
             data: {
-                label,
-                imageUrl,
+                name,
+                value,
                 storeId,
             },
         });
