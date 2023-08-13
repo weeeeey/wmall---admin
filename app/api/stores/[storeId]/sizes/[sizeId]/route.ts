@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 interface IParams {
     params: {
         storeId: string;
-        categoryId: string;
+        billboardId: string;
     };
 }
 
@@ -12,17 +12,17 @@ export async function PATCH(req: Request, { params }: IParams) {
     try {
         const body = await req.json();
         const { label, imageUrl } = body;
-        const { categoryId, storeId } = params;
+        const { billboardId, storeId } = params;
         if (label.legnth === 0 || imageUrl.legnth === 0) {
             return new NextResponse('Invalid data', { status: 401 });
         }
-        if (!categoryId || !storeId) {
+        if (!billboardId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
         const updatedBliibaords = await client.billboard.update({
             where: {
                 storeId,
-                id: categoryId,
+                id: billboardId,
             },
             data: {
                 label,
@@ -39,19 +39,20 @@ export async function PATCH(req: Request, { params }: IParams) {
 
 export async function DELETE(req: Request, { params }: IParams) {
     try {
-        const { categoryId, storeId } = params;
-        if (!categoryId || !storeId) {
+        const { billboardId, storeId } = params;
+        console.log(billboardId);
+        if (!billboardId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
-        const deletedCategory = await client.category.delete({
+        const deletedBillboards = await client.billboard.delete({
             where: {
-                id: categoryId,
+                id: billboardId,
                 storeId,
             },
         });
-        return NextResponse.json(deletedCategory);
+        return NextResponse.json(deletedBillboards);
     } catch (error) {
-        console.log('[CATEGORY_DELETE_ERROR]', error);
+        console.log('[BILLBOARDS_DELETE_ERROR]', error);
         return new NextResponse('Internal Error', { status: 500 });
     }
 }

@@ -27,7 +27,7 @@ import { useState } from 'react';
 import ApiList from '@/components/ui/api-list';
 import { Separator } from '@/components/ui/separator';
 
-interface BillboardClientProps<TData, TValue> {
+interface SizeClientProps<TData, TValue> {
     params: {
         storeId: string;
     };
@@ -35,11 +35,11 @@ interface BillboardClientProps<TData, TValue> {
     data: TData[];
 }
 
-const BillboardClient = <TData, TValue>({
+const SizeClient = <TData, TValue>({
     params,
     columns,
     data,
-}: BillboardClientProps<TData, TValue>) => {
+}: SizeClientProps<TData, TValue>) => {
     const router = useRouter();
     const pathname = usePathname();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -60,8 +60,8 @@ const BillboardClient = <TData, TValue>({
         <>
             <div className="flex justify-between items-center">
                 <Heading
-                    title={`Billboards  (${data.length})`}
-                    description="Manage billboards for your store"
+                    title={`Sizes  (${data.length})`}
+                    description="Manage sizes for your store"
                 />
                 <Button
                     className="px-4 py-1"
@@ -78,13 +78,12 @@ const BillboardClient = <TData, TValue>({
                 <Input
                     placeholder="Search"
                     value={
-                        (table
-                            .getColumn('label')
-                            ?.getFilterValue() as string) ?? ''
+                        (table.getColumn('name')?.getFilterValue() as string) ??
+                        ''
                     }
                     onChange={(event) =>
                         table
-                            .getColumn('label')
+                            .getColumn('name')
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm "
@@ -161,9 +160,9 @@ const BillboardClient = <TData, TValue>({
                     Next
                 </Button>
             </div>
-            <ApiList entityName="billboards" entityIdName="billboardId" />
+            <ApiList entityName="sizes" entityIdName="sizeId" />
         </>
     );
 };
 
-export default BillboardClient;
+export default SizeClient;

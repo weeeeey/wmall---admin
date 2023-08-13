@@ -25,8 +25,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import ApiList from '@/components/ui/api-list';
+import { Separator } from '@/components/ui/separator';
 
-interface BillboardClientProps<TData, TValue> {
+interface CategoryClientProps<TData, TValue> {
     params: {
         storeId: string;
     };
@@ -34,15 +35,14 @@ interface BillboardClientProps<TData, TValue> {
     data: TData[];
 }
 
-const BillboardClient = <TData, TValue>({
+const CategoryClient = <TData, TValue>({
     params,
     columns,
     data,
-}: BillboardClientProps<TData, TValue>) => {
+}: CategoryClientProps<TData, TValue>) => {
     const router = useRouter();
     const pathname = usePathname();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
     const table = useReactTable({
         data,
         columns,
@@ -59,8 +59,8 @@ const BillboardClient = <TData, TValue>({
         <>
             <div className="flex justify-between items-center">
                 <Heading
-                    title={`Billboards  (${data.length})`}
-                    description="Manage billboards for your store"
+                    title={`Categories  (${data.length})`}
+                    description="Manage Categories for your store"
                 />
                 <Button
                     className="px-4 py-1"
@@ -72,17 +72,17 @@ const BillboardClient = <TData, TValue>({
                     <p>Add New</p>
                 </Button>
             </div>
+            <Separator />
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Search"
                     value={
-                        (table
-                            .getColumn('label')
-                            ?.getFilterValue() as string) ?? ''
+                        (table.getColumn('name')?.getFilterValue() as string) ??
+                        ''
                     }
                     onChange={(event) =>
                         table
-                            .getColumn('label')
+                            .getColumn('name')
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm "
@@ -159,9 +159,9 @@ const BillboardClient = <TData, TValue>({
                     Next
                 </Button>
             </div>
-            <ApiList entityName="billboards" entityIdName="billboardId" />
+            <ApiList entityName="categories" entityIdName="categoryId" />
         </>
     );
 };
 
-export default BillboardClient;
+export default CategoryClient;

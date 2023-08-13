@@ -13,25 +13,24 @@ export async function POST(req: Request, { params }: IParams) {
             return new NextResponse('Unauthorized ', { status: 401 });
         }
         const body = await req.json();
-        const { name, billboard } = body;
+        const { name, value } = body;
         const { storeId } = params;
-        if (name.legnth === 0 || billboard.legnth === 0) {
+        if (name.legnth === 0 || value.legnth === 0) {
             return new NextResponse('Invalid data', { status: 400 });
         }
         if (!storeId) {
             return new NextResponse('Invalid data', { status: 400 });
         }
-
-        const newCategory = await client.category.create({
+        const newBillboard = await client.billboard.create({
             data: {
-                name,
-                billboardId: billboard,
+                label,
+                imageUrl,
                 storeId,
             },
         });
-        return NextResponse.json(newCategory);
+        return NextResponse.json(newBillboard);
     } catch (error) {
-        console.log('[CATEGORY_ERROR_ADD]', error);
+        console.log('[BILLBOARDS_ERROR_ADD]', error);
         return new NextResponse('Internal error', { status: 500 });
     }
 }

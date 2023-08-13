@@ -40,6 +40,7 @@ const CellAction = ({ data }: CellActionProps) => {
             toast.error('Something went wrong');
         } finally {
             setLoading(false);
+            setOpen(false);
             router.refresh();
         }
     };
@@ -63,7 +64,10 @@ const CellAction = ({ data }: CellActionProps) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem
-                        onClick={() => navigator.clipboard.writeText(data.id)}
+                        onClick={() => {
+                            navigator.clipboard.writeText(data.id);
+                            toast.success('Copied Billboard ID');
+                        }}
                     >
                         <Copy className="w-4 h-4 mr-2" />
                         <div>Copy ID</div>

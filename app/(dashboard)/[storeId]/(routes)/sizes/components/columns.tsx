@@ -1,22 +1,18 @@
 'use client';
 
-import { Billboard, Category } from '@prisma/client';
+import { Size } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import CellAction from './cell-action';
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Size>[] = [
     {
         accessorKey: 'name',
         header: 'Name',
     },
     {
-        accessorKey: 'billboard',
-        header: 'Billboard',
-        cell: ({ row }) => {
-            const billboard: Billboard = row.getValue('billboard');
-            return <div className="font-medium">{billboard.label}</div>;
-        },
+        accessorKey: 'value',
+        header: 'Value',
     },
     {
         accessorKey: 'updatedAt',

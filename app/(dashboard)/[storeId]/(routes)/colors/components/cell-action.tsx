@@ -1,6 +1,6 @@
 'use client';
 
-import { Category } from '@prisma/client';
+import { Size } from '@prisma/client';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 interface CellActionProps {
-    data: Category;
+    data: Size;
 }
 
 const CellAction = ({ data }: CellActionProps) => {
@@ -32,9 +32,9 @@ const CellAction = ({ data }: CellActionProps) => {
         try {
             setLoading(true);
             await axios.delete(
-                `/api/stores/${params.storeId}/categories/${data.id}`
+                `/api/stores/${params.storeId}/sizes/${data.id}`
             );
-            toast.success('deleted the Category');
+            toast.success('deleted the size');
         } catch (error) {
             toast.error('Something went wrong');
         } finally {
@@ -65,7 +65,7 @@ const CellAction = ({ data }: CellActionProps) => {
                     <DropdownMenuItem
                         onClick={() => {
                             navigator.clipboard.writeText(data.id);
-                            toast.success('Copied Category ID');
+                            toast.success('Copied Size ID');
                         }}
                     >
                         <Copy className="w-4 h-4 mr-2" />

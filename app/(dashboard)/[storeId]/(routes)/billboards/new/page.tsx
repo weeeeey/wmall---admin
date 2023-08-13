@@ -51,7 +51,7 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
             await axios.post(`/api/stores/${storeId}/billboards`, values);
 
             toast.success('Success add');
-
+            router.refresh();
             router.push(`/${storeId}/billboards`);
         } catch (error) {
             toast.error('Someting went wrong');
