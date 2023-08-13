@@ -5,7 +5,7 @@ import ProductClient from './components/client';
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     const { storeId } = params;
-    const initialCategories = await client.product.findMany({
+    const initialProducts = await client.product.findMany({
         where: {
             storeId,
         },
@@ -21,7 +21,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
                 <ProductClient
                     params={params}
                     columns={columns}
-                    data={initialCategories}
+                    data={initialProducts}
                 />
                 {/* data-table */}
             </div>

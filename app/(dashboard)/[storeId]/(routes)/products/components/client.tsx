@@ -59,8 +59,8 @@ const ProductClient = <TData, TValue>({
         <>
             <div className="flex justify-between items-center">
                 <Heading
-                    title={`Categories  (${data.length})`}
-                    description="Manage Categories for your store"
+                    title={`Products  (${data.length})`}
+                    description="Manage Products for your store"
                 />
                 <Button
                     className="px-4 py-1"
@@ -159,7 +159,7 @@ const ProductClient = <TData, TValue>({
                     Next
                 </Button>
             </div>
-            <ApiList entityName="categories" entityIdName="categoryId" />
+            <ApiList entityName="products" entityIdName="productId" />
         </>
     );
 };
