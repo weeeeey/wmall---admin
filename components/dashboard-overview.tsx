@@ -1,7 +1,7 @@
 'use client';
 
 import { Order } from '@prisma/client';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
@@ -62,6 +62,8 @@ interface DashboardFormProps {
 // name
 // total
 const DashboardOverview = ({ orders }: DashboardFormProps) => {
+    const [first, setfirst] = useState();
+
     return (
         <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data}>
@@ -79,12 +81,7 @@ const DashboardOverview = ({ orders }: DashboardFormProps) => {
                     axisLine={false}
                     tickFormatter={(value) => `$${value}`}
                 />
-                <Bar
-                    dataKey="total"
-                    fill="#8884d8"
-                    radius={[4, 4, 0, 0]}
-                    label={{ position: 'top' }}
-                />
+                <Bar dataKey="total" fill="#8884d8" radius={[4, 4, 0, 0]} />
             </BarChart>
         </ResponsiveContainer>
     );

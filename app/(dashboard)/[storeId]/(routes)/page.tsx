@@ -9,6 +9,13 @@ interface DashboardProps {
         storeId: string;
     };
 }
+interface PP {
+    orderItem: OrderItem & { product: Product };
+}
+interface SafeOrder {
+    order: Order;
+    orderItems: PP[];
+}
 
 const DashbaordPage = async ({ params }: DashboardProps) => {
     const { storeId } = params;
