@@ -32,9 +32,9 @@ const CellAction = ({ data }: CellActionProps) => {
         try {
             setLoading(true);
             await axios.delete(
-                `/api/stores/${params.storeId}/categories/${data.id}`
+                `/api/stores/${params.storeId}/products/${data.id}`
             );
-            toast.success('deleted the Category');
+            toast.success('deleted the Product');
         } catch (error) {
             toast.error('Something went wrong');
         } finally {
@@ -65,7 +65,7 @@ const CellAction = ({ data }: CellActionProps) => {
                     <DropdownMenuItem
                         onClick={() => {
                             navigator.clipboard.writeText(data.id);
-                            toast.success('Copied Category ID');
+                            toast.success('Copied Product ID');
                         }}
                     >
                         <Copy className="w-4 h-4 mr-2" />

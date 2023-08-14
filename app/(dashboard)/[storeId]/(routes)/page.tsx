@@ -1,4 +1,7 @@
+import DashboardForm from '@/components/dashboard';
 import prisma from '@/lib/prismadb';
+import { Order, OrderItem, Product } from '@prisma/client';
+import { redirect } from 'next/navigation';
 import React from 'react';
 
 interface DashboardProps {
@@ -8,12 +11,30 @@ interface DashboardProps {
 }
 
 const DashbaordPage = async ({ params }: DashboardProps) => {
-    const store = await prisma.store.findFirst({
+    const { storeId } = params;
+    if (!storeId) {
+        redirect('/');
+    }
+    const orders = await prisma.order.findMany({
         where: {
-            id: params.storeId,
+            storeId,
+        },
+        include: {
+            orderItems: {
+                include: {
+                    product: true,
+                },
+            },
         },
     });
-    return <div>{store?.name}</div>;
+
+    return (
+        <div className="flex-col">
+            <div className="flex-1 space-y-4 p-8 pt-6">
+                <DashboardForm orders={orders} />
+            </div>
+        </div>
+    );
 };
 
 export default DashbaordPage;
