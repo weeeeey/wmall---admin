@@ -35,8 +35,8 @@ import ImageUpload from '@/components/ui/image-upload';
 
 const formSchema = z.object({
     name: z.string().min(2, { message: 'write at least two characters. ' }),
-    imageUrl: z.string().min(2, { message: 'write at least two characters. ' }),
-    price: z.number(),
+    images: z.string().array(),
+    price: z.string(),
     size: z.string({
         required_error: 'Please select billboard.',
     }),
@@ -64,8 +64,8 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
-            imageUrl: '',
-            price: 0,
+            images: [],
+            price: '',
             size: '',
             category: '',
             color: '',
@@ -79,12 +79,12 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true);
-            await axios.post(`/api/stores/${storeId}/categories`, values);
+            await axios.post(`/api/stores/${storeId}/products`, values);
 
             toast.success('Success add');
 
             router.refresh();
-            router.push(`/${storeId}/categories`);
+            router.push(`/${storeId}/products`);
         } catch (error) {
             toast.error('Someting went wrong');
         } finally {
@@ -99,28 +99,38 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                     className="space-y-8"
                 >
                     <div className="grid grid-cols-3 gap-8 ">
+                        {/* images */}
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="images"
                             render={({ field }) => (
                                 <FormItem className="col-span-3">
                                     <FormLabel>Images</FormLabel>
                                     <FormControl>
                                         <ImageUpload
                                             value={
-                                                field.value ? [field.value] : []
+                                                field.value ? field.value : []
                                             }
                                             disabled={loading}
-                                            onChange={(url) =>
-                                                field.onChange(url)
+                                            onChange={(url) => {
+                                                field.onChange(
+                                                    (p: string[]) => [...p, url]
+                                                );
+                                            }}
+                                            onRemove={(url) =>
+                                                field.onChange((p: string[]) =>
+                                                    p.filter(
+                                                        (ppp) => ppp !== url
+                                                    )
+                                                )
                                             }
-                                            onRemove={() => field.onChange('')}
                                         />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+                        {/* name */}
                         <FormField
                             control={form.control}
                             name="name"
@@ -138,6 +148,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                 </FormItem>
                             )}
                         />
+                        {/* price */}
                         <FormField
                             control={form.control}
                             name="price"
@@ -149,13 +160,14 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                             {...field}
                                             className="w-full"
                                             type="number"
-                                            placeholder={field.value + ''}
+                                            placeholder="0"
                                         />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+                        {/* category */}
                         <FormField
                             control={form.control}
                             name="category"
@@ -186,6 +198,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                 </FormItem>
                             )}
                         />
+                        {/* size */}
                         <FormField
                             control={form.control}
                             name="size"
@@ -216,6 +229,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                 </FormItem>
                             )}
                         />
+                        {/* color */}
                         <FormField
                             control={form.control}
                             name="color"
@@ -246,6 +260,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                 </FormItem>
                             )}
                         />
+                        {/* isFeatured */}
                         <FormField
                             control={form.control}
                             name="isFeatured"
@@ -267,6 +282,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                 </FormItem>
                             )}
                         />
+                        {/* isArchived */}
                         <FormField
                             control={form.control}
                             name="isArchived"
