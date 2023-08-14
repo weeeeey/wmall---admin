@@ -51,7 +51,7 @@ export async function POST(req: Request, { params }: IParams) {
                 colorId: color,
                 storeId,
                 images: {
-                    create: images.map((url: string) => ({ url })),
+                    create: images.map((image: any) => ({ url: image.url })),
                 },
             },
         });

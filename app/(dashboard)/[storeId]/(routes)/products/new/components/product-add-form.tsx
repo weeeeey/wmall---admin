@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ import ImageUpload from '@/components/ui/image-upload';
 
 const formSchema = z.object({
     name: z.string().min(2, { message: 'write at least two characters. ' }),
-    images: z.string().array(),
+    images: z.object({ url: z.string() }).array(),
     price: z.string(),
     size: z.string({
         required_error: 'Please select billboard.',
@@ -91,6 +91,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
             setLoading(false);
         }
     }
+
     return (
         <>
             <Form {...form}>
@@ -108,19 +109,21 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                     <FormLabel>Images</FormLabel>
                                     <FormControl>
                                         <ImageUpload
-                                            value={
-                                                field.value ? field.value : []
-                                            }
+                                            value={field.value.map(
+                                                (image) => image.url
+                                            )}
                                             disabled={loading}
-                                            onChange={(url) => {
-                                                field.onChange(
-                                                    (p: string[]) => [...p, url]
-                                                );
-                                            }}
+                                            onChange={(url) =>
+                                                field.onChange([
+                                                    ...field.value,
+                                                    { url },
+                                                ])
+                                            }
                                             onRemove={(url) =>
-                                                field.onChange((p: string[]) =>
-                                                    p.filter(
-                                                        (ppp) => ppp !== url
+                                                field.onChange(
+                                                    field.value.filter(
+                                                        (image: any) =>
+                                                            image.url !== url
                                                     )
                                                 )
                                             }
