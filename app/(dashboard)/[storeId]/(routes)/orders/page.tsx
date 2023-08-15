@@ -5,12 +5,19 @@ import OrderClient from './components/client';
 import { redirect } from 'next/navigation';
 import { Order, OrderItem, Prisma, Product } from '@prisma/client';
 
+interface SafeOrderProps {
+    order: Order & {
+        orderItems: (OrderItem & {
+            prodcut: Product;
+        })[];
+    };
+}
 const SizesPage = async ({ params }: { params: { storeId: string } }) => {
     const { storeId } = params;
     if (!storeId) {
         redirect('/');
     }
-    const initialOrders = await client.order.findMany({
+    const initialOrders: SafeOrderProps[] = await client.order.findMany({
         where: {
             storeId,
         },

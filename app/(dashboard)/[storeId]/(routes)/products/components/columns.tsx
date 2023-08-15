@@ -22,12 +22,13 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: 'price',
         header: 'Price',
         cell: ({ row }) => {
+            let USDollar = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            });
             const price: number = row.getValue('price');
-            return (
-                <div className="font-medium">{`$${(price / 100).toFixed(
-                    2
-                )}`}</div>
-            );
+
+            return <div className="font-medium">{USDollar.format(price)}</div>;
         },
     },
     {
