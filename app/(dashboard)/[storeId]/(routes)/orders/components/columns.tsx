@@ -1,12 +1,16 @@
 'use client';
 
-import { Order } from '@prisma/client';
+import { Order, OrderItem, Product } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<Order>[] = [
     {
         accessorKey: 'products',
         header: 'Products',
+        cell: ({ row }) => {
+            const orderItems: OrderItem[] = row.getValue('orderItems');
+            const products = orderItems.map((oi) => oi.productId);
+        },
     },
     {
         accessorKey: 'phone',

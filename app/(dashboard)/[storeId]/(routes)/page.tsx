@@ -1,3 +1,6 @@
+import getSalesCount from '@/actions/get-sales-count';
+import getStockCount from '@/actions/get-stock-count';
+import getTotalRevenue from '@/actions/get-total-revenue';
 import DashboardForm from '@/components/dashboard';
 import prisma from '@/lib/prismadb';
 import { Order, OrderItem, Product } from '@prisma/client';
@@ -34,6 +37,8 @@ const DashbaordPage = async ({ params }: DashboardProps) => {
             },
         },
     });
+    const a = await getSalesCount(storeId);
+    console.log(`asdasd ${a}`);
 
     return (
         <div className="flex-col">
