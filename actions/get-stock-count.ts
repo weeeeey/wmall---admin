@@ -13,6 +13,7 @@ const getStockCount = async (storeId: string) => {
             },
         },
     });
+
     if (!store) {
         return 0;
     }
