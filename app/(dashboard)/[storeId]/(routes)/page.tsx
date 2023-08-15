@@ -1,3 +1,4 @@
+import getGraphRevenue from '@/actions/get-graph-revenue';
 import getSalesCount from '@/actions/get-sales-count';
 import getStockCount from '@/actions/get-stock-count';
 import getTotalRevenue from '@/actions/get-total-revenue';
@@ -37,9 +38,8 @@ const DashbaordPage = async ({ params }: DashboardProps) => {
             },
         },
     });
-    const a = await getTotalRevenue(storeId);
-    console.log(`asdasd ${a}`);
-
+    const a = await getGraphRevenue(storeId);
+    console.log(a);
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
