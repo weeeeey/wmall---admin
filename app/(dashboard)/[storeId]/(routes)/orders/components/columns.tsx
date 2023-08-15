@@ -1,15 +1,32 @@
 'use client';
 
+import getTotalRevenue from '@/actions/get-total-revenue';
 import { Order, OrderItem, Product } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 
-export const columns: ColumnDef<Order>[] = [
+interface SafeOrderProps {
+    order: Order & {
+        orderItems: (OrderItem & {
+            prodcut: Product;
+        })[];
+    };
+}
+
+export const columns: ColumnDef<SafeOrderProps>[] = [
     {
-        accessorKey: 'products',
+        accessorKey: 'orderItems',
         header: 'Products',
         cell: ({ row }) => {
-            const orderItems: OrderItem[] = row.getValue('orderItems');
-            const products = orderItems.map((oi) => oi.productId);
+            const orderItems: (OrderItem & { product: Product })[] =
+                row.getValue('orderItems');
+            const productNames = orderItems.map((oi) => oi.product.name);
+            return (
+                <div className="flex flex-col items-start justify-center">
+                    {productNames.map((productName: string) => (
+                        <div key={productName}>{productName},</div>
+                    ))}
+                </div>
+            );
         },
     },
     {
@@ -23,6 +40,16 @@ export const columns: ColumnDef<Order>[] = [
     {
         accessorKey: 'orderItems',
         header: 'Total Price',
+        cell: ({ row }) => {
+            const orderItems: (OrderItem & { product: Product })[] =
+                row.getValue('orderItems');
+            let p = 0;
+            const totalPrice = orderItems.reduce(
+                (acc, current) => acc + current.product.price,
+                p
+            );
+            return <div>{totalPrice}</div>;
+        },
     },
     {
         accessorKey: 'isPaid',
