@@ -38,12 +38,19 @@ const DashbaordPage = async ({ params }: DashboardProps) => {
             },
         },
     });
-    const a = await getGraphRevenue(storeId);
-    console.log(a);
+    const graphRevenue = await getGraphRevenue(storeId);
+    const salesCount = await getSalesCount(storeId);
+    const stockCount = await getStockCount(storeId);
+    const totalRevenue = await getTotalRevenue(storeId);
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <DashboardForm orders={orders} />
+                <DashboardForm
+                    graphRevenue={graphRevenue}
+                    salesCount={salesCount}
+                    stockCount={stockCount}
+                    totalRevenue={totalRevenue}
+                />
             </div>
         </div>
     );

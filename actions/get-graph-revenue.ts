@@ -1,12 +1,6 @@
 import { format } from 'date-fns';
 import client from '@/lib/prismadb';
-import { Order } from '@prisma/client';
 
-interface MonthOrderProps {
-    [key: string]: {
-        orders: Order[];
-    };
-}
 interface MonthPriceProps {
     [key: string]: number;
 }
@@ -15,7 +9,7 @@ const getGraphRevenue = async (storeId: string) => {
     const orders = await client.order.findMany({
         where: {
             storeId,
-            isPaid: false,
+            isPaid: true,
         },
         include: {
             orderItems: {
@@ -29,44 +23,6 @@ const getGraphRevenue = async (storeId: string) => {
         return 0;
     }
 
-    let monthOrder: MonthOrderProps = {
-        Jan: {
-            orders: [],
-        },
-        Feb: {
-            orders: [],
-        },
-        Mar: {
-            orders: [],
-        },
-        Apr: {
-            orders: [],
-        },
-        May: {
-            orders: [],
-        },
-        Jun: {
-            orders: [],
-        },
-        Jul: {
-            orders: [],
-        },
-        Aug: {
-            orders: [],
-        },
-        Sep: {
-            orders: [],
-        },
-        Oct: {
-            orders: [],
-        },
-        Nov: {
-            orders: [],
-        },
-        Dec: {
-            orders: [],
-        },
-    };
     let monthRevenue: MonthPriceProps = {
         Jan: 0,
         Feb: 0,

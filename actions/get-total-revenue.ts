@@ -5,7 +5,7 @@ const getTotalRevenue = async (storeId: string) => {
     const orders = await client.order.findMany({
         where: {
             storeId,
-            isPaid: false,
+            isPaid: true,
         },
         include: {
             orderItems: {

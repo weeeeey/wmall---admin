@@ -12,15 +12,20 @@ interface DashboardCardProps {
     title: string;
     icon: LucideIcon;
     style?: string;
-    price: number;
+    value: number;
 }
 
 const DashboardCard = ({
     icon: Icon,
-    price,
+    value,
     title,
-    style,
+    style = '',
 }: DashboardCardProps) => {
+    let USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+
     return (
         <Card>
             <CardHeader className="pb-2">
@@ -29,7 +34,9 @@ const DashboardCard = ({
                     <Icon className="w-4 h-4 text-muted-foreground" />
                 </CardTitle>
             </CardHeader>
-            <CardContent className="font-bold text-2xl ">{price}</CardContent>
+            <CardContent className="font-bold text-2xl ">
+                {style === 'USD' ? USDollar.format(value) : `${style}${value}`}
+            </CardContent>
         </Card>
     );
 };

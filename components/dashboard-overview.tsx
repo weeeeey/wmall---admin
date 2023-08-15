@@ -56,12 +56,12 @@ const data = [
     },
 ];
 
-interface DashboardFormProps {
-    orders: Order[];
+interface DashFormProps {
+    graphRevenue: number | { [key: string]: number };
 }
 // name
 // total
-const DashboardOverview = ({ orders }: DashboardFormProps) => {
+const DashboardOverview = ({ graphRevenue }: DashFormProps) => {
     const [first, setfirst] = useState();
 
     return (

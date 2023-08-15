@@ -10,8 +10,19 @@ import { format } from 'date-fns';
 interface DashboardFormProps {
     orders: Order[];
 }
+interface DashFormProps {
+    graphRevenue: number | { [key: string]: number };
+    salesCount: number;
+    stockCount: number;
+    totalRevenue: number;
+}
 
-const DashboardForm = ({ orders }: DashboardFormProps) => {
+const DashboardForm = ({
+    graphRevenue,
+    salesCount,
+    stockCount,
+    totalRevenue,
+}: DashFormProps) => {
     return (
         <>
             <Heading title="Dashboard" description="Overview of your store" />
@@ -20,16 +31,22 @@ const DashboardForm = ({ orders }: DashboardFormProps) => {
                 <DashboardCard
                     title="Total Revenue"
                     icon={DollarSign}
-                    price={0}
+                    value={totalRevenue}
+                    style="USD"
                 />
-                <DashboardCard title="Sales" price={0} icon={CreditCard} />
+                <DashboardCard
+                    title="Sales"
+                    icon={CreditCard}
+                    value={salesCount}
+                    style="+"
+                />
                 <DashboardCard
                     title="Products In Stock"
-                    price={0}
                     icon={Package}
+                    value={stockCount}
                 />
             </div>
-            <DashboardOverview orders={orders} />
+            <DashboardOverview graphRevenue={graphRevenue} />
         </>
     );
 };
