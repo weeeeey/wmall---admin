@@ -4,7 +4,10 @@ import client from '@/lib/prismadb';
 interface MonthPriceProps {
     [key: string]: number;
 }
-
+interface DataProps {
+    name: string;
+    total: number;
+}
 const getGraphRevenue = async (storeId: string) => {
     const orders = await client.order.findMany({
         where: {
@@ -45,7 +48,15 @@ const getGraphRevenue = async (storeId: string) => {
             initialValue
         );
     }
-    return monthRevenue;
+
+    let data: DataProps[] = [];
+    for (let key in monthRevenue) {
+        data.push({
+            name: key,
+            total: monthRevenue[key],
+        });
+    }
+    return data;
 };
 
 export default getGraphRevenue;

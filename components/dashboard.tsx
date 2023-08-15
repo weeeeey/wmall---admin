@@ -11,7 +11,7 @@ interface DashboardFormProps {
     orders: Order[];
 }
 interface DashFormProps {
-    graphRevenue: number | { [key: string]: number };
+    graphRevenue: { name: string; total: number }[] | number;
     salesCount: number;
     stockCount: number;
     totalRevenue: number;

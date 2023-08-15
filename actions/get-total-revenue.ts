@@ -1,5 +1,4 @@
 import client from '@/lib/prismadb';
-import { OrderItem } from '@prisma/client';
 
 const getTotalRevenue = async (storeId: string) => {
     const orders = await client.order.findMany({
