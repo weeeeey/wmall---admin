@@ -37,7 +37,7 @@ const DashbaordPage = async ({ params }: DashboardProps) => {
             },
         },
     });
-    const a = await getSalesCount(storeId);
+    const a = await getTotalRevenue(storeId);
     console.log(`asdasd ${a}`);
 
     return (

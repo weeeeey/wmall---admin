@@ -5,7 +5,7 @@ const getTotalRevenue = async (storeId: string) => {
     const orders = await client.order.findMany({
         where: {
             storeId,
-            isPaid: true,
+            isPaid: false,
         },
         include: {
             orderItems: {
@@ -18,18 +18,16 @@ const getTotalRevenue = async (storeId: string) => {
     if (!orders) {
         return 0;
     }
-    const p = 0;
+    let totalPrice = 0;
+    for (let i = 0; i < orders.length; i++) {
+        let p = 0;
+        totalPrice += orders[i].orderItems.reduce(
+            (acc, orderItem) => acc + orderItem.product.price,
+            p
+        );
+    }
 
-    return;
+    return totalPrice;
 };
 
 export default getTotalRevenue;
-
-const array1 = [1, 2, 3, 4];
-
-// 0 + 1 + 2 + 3 + 4
-const initialValue = 0;
-const sumWithInitial = array1.reduce((a, c) => a + c, initialValue);
-
-console.log(sumWithInitial);
-// Expected output: 10
