@@ -25,7 +25,12 @@ import * as z from 'zod';
 
 const formSchema = z.object({
     name: z.string().min(1, { message: 'write at least two characters. ' }),
-    value: z.string().min(1, { message: 'write a value' }),
+    value: z
+        .string()
+        .min(4, { message: 'String must contain at least 4 character(s)' })
+        .regex(/^#([0-9A-Fa-f]){4,}$/, {
+            message: 'String must be a valid hex code',
+        }),
 });
 
 const AddBillboards = ({ params }: { params: { storeId: string } }) => {
@@ -97,7 +102,6 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
                                                 {...field}
                                                 placeholder="Color value"
                                                 className="w-96"
-                                                pattern="/^[0-9A-Fa-f]{6}$/"
                                             />
                                             <div
                                                 className={`rounded-full w-8 h-8 border-[1px]`}
