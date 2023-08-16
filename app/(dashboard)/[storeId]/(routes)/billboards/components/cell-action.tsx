@@ -74,7 +74,7 @@ const CellAction = ({ data }: CellActionProps) => {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
-                            router.push(`${window.location.href}/new`);
+                            router.push(`${window.location.href}/${data.id}`);
                         }}
                     >
                         <PenLine className="w-4 h-4 mr-2" />
