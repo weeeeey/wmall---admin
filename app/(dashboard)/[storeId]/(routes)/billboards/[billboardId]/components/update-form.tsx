@@ -50,7 +50,10 @@ const UpdateBillboardForm = ({ billboard, storeId }: UpdateBillboardProps) => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true);
-            await axios.post(`/api/stores/${storeId}/billboards`, values);
+            await axios.patch(
+                `/api/stores/${storeId}/billboards/${billboard.id}`,
+                values
+            );
 
             toast.success('Success add');
             router.refresh();
@@ -105,7 +108,7 @@ const UpdateBillboardForm = ({ billboard, storeId }: UpdateBillboardProps) => {
                         )}
                     />
                     <Button disabled={loading} type="submit">
-                        Create
+                        Update
                     </Button>
                 </form>
             </Form>
