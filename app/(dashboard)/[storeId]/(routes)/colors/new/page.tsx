@@ -97,6 +97,7 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
                                                 {...field}
                                                 placeholder="Color value"
                                                 className="w-96"
+                                                pattern="/^[0-9A-Fa-f]{6}$/"
                                             />
                                             <div
                                                 className={`rounded-full w-8 h-8 border-[1px]`}
