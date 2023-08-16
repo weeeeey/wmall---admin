@@ -3,8 +3,8 @@ import { toast } from 'react-hot-toast';
 
 import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import UpdateBillboardForm from './components/update-form';
 import client from '@/lib/prismadb';
+import UpdateSizeForm from './components/update-form';
 
 const UpdateSizePage = async ({
     params,
@@ -30,7 +30,7 @@ const UpdateSizePage = async ({
         <div className="flex flex-col space-y-4 px-8 py-6">
             <Heading title="Edit size" description="Edit a size" />
             <Separator />
-            <UpdateBillboardForm storeId={storeId} size={size} />
+            <UpdateSizeForm storeId={storeId} size={size} />
         </div>
     );
 };

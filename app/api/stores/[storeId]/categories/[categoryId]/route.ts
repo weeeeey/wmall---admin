@@ -11,26 +11,26 @@ interface IParams {
 export async function PATCH(req: Request, { params }: IParams) {
     try {
         const body = await req.json();
-        const { label, imageUrl } = body;
+        const { name, billboard } = body;
         const { categoryId, storeId } = params;
-        if (label.legnth === 0 || imageUrl.legnth === 0) {
+        if (name.legnth === 0 || billboard.legnth === 0) {
             return new NextResponse('Invalid data', { status: 401 });
         }
         if (!categoryId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
-        const updatedBliibaords = await client.billboard.update({
+        const updatedCategory = await client.category.update({
             where: {
                 storeId,
                 id: categoryId,
             },
             data: {
-                label,
-                imageUrl,
+                name,
+                billboardId: billboard,
             },
         });
 
-        return NextResponse.json(updatedBliibaords);
+        return NextResponse.json(updatedCategory);
     } catch (error) {
         console.log('[BILLBOARDS_UPDATE_ERROR]', error);
         return new NextResponse('Internal Error', { status: 500 });
