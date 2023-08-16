@@ -58,7 +58,7 @@ const UpdateCategoryForm = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: category.name,
-            billboard: category.billboard.label,
+            billboard: category.billboard.id,
         },
     });
 
