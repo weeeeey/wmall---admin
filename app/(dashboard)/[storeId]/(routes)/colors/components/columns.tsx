@@ -13,6 +13,17 @@ export const columns: ColumnDef<Color>[] = [
     {
         accessorKey: 'value',
         header: 'Value',
+        cell: ({ row }) => {
+            return (
+                <div className="flex items-center justify-start space-x-2">
+                    <div>{row.original.value}</div>
+                    <div
+                        className="w-6 h-6 border-[1px] rounded-full"
+                        style={{ backgroundColor: row.original.value }}
+                    />
+                </div>
+            );
+        },
     },
     {
         accessorKey: 'updatedAt',

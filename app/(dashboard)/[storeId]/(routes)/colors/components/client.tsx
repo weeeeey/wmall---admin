@@ -61,7 +61,7 @@ const ColorClient = <TData, TValue>({
             <div className="flex justify-between items-center">
                 <Heading
                     title={`Colors  (${data.length})`}
-                    description="Manage colors for your store"
+                    description="Manage colors for your products"
                 />
                 <Button
                     className="px-4 py-1"

@@ -17,6 +17,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
+    useFormField,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
@@ -40,7 +41,6 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
             value: '',
         },
     });
-
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -57,6 +57,7 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
             setLoading(false);
         }
     }
+    const colorValue = form.watch('value');
     return (
         <div className="flex flex-col space-y-4 px-8 py-6">
             <Heading title="Create color" description="Add a new color" />
@@ -91,11 +92,19 @@ const AddBillboards = ({ params }: { params: { storeId: string } }) => {
                                 <FormItem>
                                     <FormLabel>Value</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            {...field}
-                                            placeholder="Color value"
-                                            className="w-96"
-                                        />
+                                        <div className="flex items-center justify-center space-x-4">
+                                            <Input
+                                                {...field}
+                                                placeholder="Color value"
+                                                className="w-96"
+                                            />
+                                            <div
+                                                className={`rounded-full w-8 h-8 border-[1px]`}
+                                                style={{
+                                                    backgroundColor: colorValue,
+                                                }}
+                                            />
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
