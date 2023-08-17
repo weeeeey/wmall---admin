@@ -43,10 +43,10 @@ export async function DELETE(req: Request, { params }: IParams) {
         if (!categoryId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
+
         const deletedCategory = await client.category.delete({
             where: {
                 id: categoryId,
-                storeId,
             },
         });
         return NextResponse.json(deletedCategory);

@@ -78,13 +78,15 @@ export async function DELETE(req: Request, { params }: IParams) {
         if (!productId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
-        const deletedSize = await client.product.delete({
+
+        const deletedProduct = await client.product.delete({
             where: {
                 id: productId,
                 storeId,
             },
         });
-        return NextResponse.json(deletedSize);
+        console.log(deletedProduct);
+        return NextResponse.json(deletedProduct);
     } catch (error) {
         console.log('[PRODUCTS_DELETE_ERROR]', error);
         return new NextResponse('Internal Error', { status: 500 });
