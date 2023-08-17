@@ -5,12 +5,10 @@ import { Order, OrderItem, Product } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 
-interface SafeOrderProps {
-    order: Order & {
-        orderItems: (OrderItem & {
-            prodcut: Product;
-        })[];
-    };
+interface SafeOrderProps extends Order {
+    orderItems: (OrderItem & {
+        product: Product;
+    })[];
 }
 
 export const columns: ColumnDef<SafeOrderProps>[] = [
