@@ -8,6 +8,8 @@ import {
     getPaginationRowModel,
     ColumnFiltersState,
     getFilteredRowModel,
+    getSortedRowModel,
+    SortingState,
 } from '@tanstack/react-table';
 
 import {
@@ -43,6 +45,7 @@ const BillboardClient = <TData, TValue>({
     const router = useRouter();
     const pathname = usePathname();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data,
@@ -51,8 +54,11 @@ const BillboardClient = <TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
         state: {
             columnFilters,
+            sorting,
         },
     });
 

@@ -8,6 +8,8 @@ import {
     getPaginationRowModel,
     ColumnFiltersState,
     getFilteredRowModel,
+    SortingState,
+    getSortedRowModel,
 } from '@tanstack/react-table';
 
 import {
@@ -39,6 +41,7 @@ const OrderClient = <TData, TValue>({
     data,
 }: OrderClientProps<TData, TValue>) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data,
@@ -47,8 +50,11 @@ const OrderClient = <TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
         state: {
             columnFilters,
+            sorting,
         },
     });
 

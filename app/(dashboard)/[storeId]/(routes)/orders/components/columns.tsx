@@ -1,7 +1,9 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Order, OrderItem, Product } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown } from 'lucide-react';
 
 interface SafeOrderProps {
     order: Order & {
@@ -38,7 +40,19 @@ export const columns: ColumnDef<SafeOrderProps>[] = [
     },
     {
         accessorKey: 'orderItems',
-        header: 'Total Price',
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === 'asc')
+                    }
+                >
+                    Total Price
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         cell: ({ row }) => {
             const orderItems: (OrderItem & { product: Product })[] =
                 row.getValue('orderItems');
