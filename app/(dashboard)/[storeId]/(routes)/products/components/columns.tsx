@@ -52,7 +52,17 @@ export const columns: ColumnDef<Product>[] = [
         header: 'Color',
         cell: ({ row }) => {
             const color: Color = row.getValue('color');
-            return <div className="font-medium">{color.name}</div>;
+            return (
+                <div className="font-medium flex items-center space-x-2">
+                    <div>{color.name}</div>
+                    <div
+                        className="h-6 w-6 border-[1px] rounded-full"
+                        style={{
+                            backgroundColor: color.value,
+                        }}
+                    />
+                </div>
+            );
         },
     },
 

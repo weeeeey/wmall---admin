@@ -68,6 +68,7 @@ interface UpdateProductProps {
         colors: {
             id: string;
             name: string;
+            value: string;
         }[];
         sizes: {
             id: string;
@@ -277,7 +278,16 @@ const UpdateProductForm = ({ storeId, product, store }: UpdateProductProps) => {
                                                         key={c.id}
                                                         value={c.id}
                                                     >
-                                                        {c.name}
+                                                        <div className="flex items-center space-x-4">
+                                                            <div>{c.name}</div>
+                                                            <div
+                                                                className="h-6 w-6 border-[1px] rounded-full"
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        c.value,
+                                                                }}
+                                                            />
+                                                        </div>
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

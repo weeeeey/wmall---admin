@@ -257,7 +257,20 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
                                                         key={c.id}
                                                         value={c.id}
                                                     >
-                                                        {c.name}
+                                                        <div className="flex items-center space-x-4 ">
+                                                            <div className="flex items-center space-x-4">
+                                                                <div>
+                                                                    {c.name}
+                                                                </div>
+                                                                <div
+                                                                    className="h-6 w-6 rounded-full border-[1px]"
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            c.value,
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

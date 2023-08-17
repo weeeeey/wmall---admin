@@ -36,6 +36,7 @@ const UpdateSizePage = async ({
                 select: {
                     id: true,
                     name: true,
+                    value: true,
                 },
             },
             sizes: {
