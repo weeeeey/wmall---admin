@@ -25,7 +25,7 @@ const AddCategory = async ({ params }: { params: { storeId: string } }) => {
     }
     return (
         <div className="flex  flex-col space-y-4 px-8 py-6">
-            <Heading title="Create category" description="Add a new category" />
+            <Heading title="Create product" description="Add a new product" />
             <Separator />
             <ProductAddForm storeId={storeId} store={store} />
         </div>

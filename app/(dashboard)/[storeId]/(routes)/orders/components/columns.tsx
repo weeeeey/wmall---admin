@@ -1,6 +1,5 @@
 'use client';
 
-import getTotalRevenue from '@/actions/get-total-revenue';
 import { Order, OrderItem, Product } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 

@@ -60,7 +60,7 @@ const UpdateSizePage = async ({
 
     return (
         <div className="flex flex-col space-y-4 px-8 py-6">
-            <Heading title="Edit category" description="Edit a category" />
+            <Heading title="Edit product" description="Edit a product" />
             <Separator />
             <UpdateProductForm
                 storeId={storeId}

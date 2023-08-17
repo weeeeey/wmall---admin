@@ -20,11 +20,9 @@ import {
 } from '@/components/ui/table';
 import Heading from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import ApiList from '@/components/ui/api-list';
 import { Separator } from '@/components/ui/separator';
 
 interface OrderClientProps<TData, TValue> {
@@ -40,8 +38,6 @@ const OrderClient = <TData, TValue>({
     columns,
     data,
 }: OrderClientProps<TData, TValue>) => {
-    const router = useRouter();
-    const pathname = usePathname();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const table = useReactTable({
