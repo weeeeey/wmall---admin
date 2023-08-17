@@ -85,16 +85,11 @@ const UpdateProductForm = ({ storeId, product, store }: UpdateProductProps) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    console.log(
-        product.images.map((image) => {
-            url: image.url;
-        })
-    );
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: product.name,
-            images: [],
+            images: product.images,
             price: product.price + '',
             size: product.size.id,
             category: product.category.id,

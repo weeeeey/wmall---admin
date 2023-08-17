@@ -76,6 +76,7 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true);

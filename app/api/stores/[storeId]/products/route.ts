@@ -39,7 +39,6 @@ export async function POST(req: Request, { params }: IParams) {
         if (!storeId) {
             return new NextResponse('Invalid data', { status: 400 });
         }
-        console.log(images);
         const newProduct = await client.product.create({
             data: {
                 name,
@@ -55,7 +54,6 @@ export async function POST(req: Request, { params }: IParams) {
                 },
             },
         });
-        console.log(newProduct);
         return NextResponse.json(newProduct);
     } catch (error) {
         console.log('[PRODUCTS_ERROR_ADD]', error);

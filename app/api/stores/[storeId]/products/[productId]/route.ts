@@ -37,6 +37,12 @@ export async function PATCH(req: Request, { params }: IParams) {
         if (!productId || !storeId) {
             return new NextResponse('Invalid object', { status: 401 });
         }
+
+        await client.image.deleteMany({
+            where: {
+                productId,
+            },
+        });
         const updatedProduct = await client.product.update({
             where: {
                 storeId,
@@ -52,11 +58,13 @@ export async function PATCH(req: Request, { params }: IParams) {
                 colorId: color,
                 storeId,
                 images: {
-                    create: images.map((image: any) => ({ url: image.url })),
+                    create: images.map((image: any) => ({
+                        url: image.url,
+                    })),
                 },
             },
         });
-
+        console.log(updatedProduct);
         return NextResponse.json(updatedProduct);
     } catch (error) {
         console.log('[PRODUCTS_UPDATE_ERROR]', error);
