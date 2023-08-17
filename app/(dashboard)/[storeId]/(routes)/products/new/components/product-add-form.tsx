@@ -79,10 +79,13 @@ const ProductAddForm = ({ storeId, store }: ProductAddFormProps) => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true);
-            await axios.post(`/api/stores/${storeId}/products`, values);
+            const res = await axios.post(
+                `/api/stores/${storeId}/products`,
+                values
+            );
 
             toast.success('Success add');
-
+            console.log(res.data);
             router.refresh();
             router.push(`/${storeId}/products`);
         } catch (error) {
