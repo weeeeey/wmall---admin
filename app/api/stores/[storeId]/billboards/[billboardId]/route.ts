@@ -56,3 +56,23 @@ export async function DELETE(req: Request, { params }: IParams) {
         return new NextResponse('Internal Error', { status: 500 });
     }
 }
+
+export async function GET(req: Request, { params }: IParams) {
+    try {
+        if (!params.storeId) {
+            return new NextResponse('Store id is required', { status: 400 });
+        }
+
+        const billboard = await client.billboard.findUnique({
+            where: {
+                storeId: params.storeId,
+                id: params.billboardId,
+            },
+        });
+
+        return NextResponse.json(billboard);
+    } catch (error) {
+        console.log('[billboard_GET]', error);
+        return new NextResponse('Internal error', { status: 500 });
+    }
+}

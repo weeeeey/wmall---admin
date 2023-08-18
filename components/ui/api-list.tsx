@@ -25,27 +25,27 @@ const ApiList = ({ entityIdName, entityName }: ApiListProps) => {
             <ApiAlert
                 title="GET"
                 variant="public"
-                description={`${origin}/api/${storeId}/${entityName}`}
+                description={`${origin}/api/stores/${storeId}/${entityName}`}
             />
             <ApiAlert
                 title="GET"
                 variant="public"
-                description={`${origin}/api/${storeId}/${entityName}/{${entityIdName}}`}
+                description={`${origin}/api/stores/${storeId}/${entityName}/{${entityIdName}}`}
             />
             <ApiAlert
                 title="POST"
                 variant="admin"
-                description={`${origin}/api/${storeId}/${entityName}`}
+                description={`${origin}/api/stores/${storeId}/${entityName}`}
             />
             <ApiAlert
                 title="PATCH"
                 variant="admin"
-                description={`${origin}/api/${storeId}/${entityName}/{${entityIdName}}`}
+                description={`${origin}/api/stores/${storeId}/${entityName}/{${entityIdName}}`}
             />
             <ApiAlert
                 title="DELETE"
                 variant="admin"
-                description={`${origin}/api/${storeId}/${entityName}/{${entityIdName}}`}
+                description={`${origin}/api/stores/${storeId}/${entityName}/{${entityIdName}}`}
             />
         </div>
     );

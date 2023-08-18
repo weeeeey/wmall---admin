@@ -55,3 +55,23 @@ export async function DELETE(req: Request, { params }: IParams) {
         return new NextResponse('Internal Error', { status: 500 });
     }
 }
+
+export async function GET(req: Request, { params }: IParams) {
+    try {
+        if (!params.storeId) {
+            return new NextResponse('Store id is required', { status: 400 });
+        }
+
+        const color = await client.color.findUnique({
+            where: {
+                storeId: params.storeId,
+                id: params.colorId,
+            },
+        });
+
+        return NextResponse.json(color);
+    } catch (error) {
+        console.log('[color_GET]', error);
+        return new NextResponse('Internal error', { status: 500 });
+    }
+}

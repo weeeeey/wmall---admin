@@ -34,3 +34,22 @@ export async function POST(req: Request, { params }: IParams) {
         return new NextResponse('Internal error', { status: 500 });
     }
 }
+
+export async function GET(req: Request, { params }: IParams) {
+    try {
+        if (!params.storeId) {
+            return new NextResponse('Store id is required', { status: 400 });
+        }
+
+        const sizes = await client.size.findMany({
+            where: {
+                storeId: params.storeId,
+            },
+        });
+
+        return NextResponse.json(sizes);
+    } catch (error) {
+        console.log('[SIZES_GET]', error);
+        return new NextResponse('Internal error', { status: 500 });
+    }
+}

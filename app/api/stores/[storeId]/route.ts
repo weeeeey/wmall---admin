@@ -64,3 +64,30 @@ export async function DELETE(req: Request, { params }: IParams) {
         return new NextResponse('Internal error', { status: 500 });
     }
 }
+
+export async function GET(req: Request, { params }: IParams) {
+    try {
+        const { userId } = auth();
+        if (!userId) {
+            return new NextResponse('Unauthorized', { status: 401 });
+        }
+
+        const store = await client.store.findUnique({
+            where: {
+                id: params.storeId,
+            },
+            include: {
+                billboards: true,
+                categories: true,
+                colors: true,
+                orders: true,
+                products: true,
+                sizes: true,
+            },
+        });
+        return NextResponse.json(store);
+    } catch (error) {
+        console.log('[STORE_GET]', error);
+        return new NextResponse('Internal Error', { status: 500 });
+    }
+}

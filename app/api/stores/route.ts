@@ -1,3 +1,4 @@
+import client from '@/lib/prismadb';
 import prisma from '@/lib/prismadb';
 
 import { auth } from '@clerk/nextjs';

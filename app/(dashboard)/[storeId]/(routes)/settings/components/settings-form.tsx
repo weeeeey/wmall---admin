@@ -137,7 +137,7 @@ const SettingsForm = ({ initialStore }: SettingsForm) => {
             </Form>
             <Separator />
             <ApiAlert
-                description={`${origin}/api/${params.storeId}`}
+                description={`${origin}/api/stores/${params.storeId}`}
                 title="NEXT_PUBLIC_API_URL"
                 variant="public"
             />
