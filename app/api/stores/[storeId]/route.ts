@@ -76,14 +76,6 @@ export async function GET(req: Request, { params }: IParams) {
             where: {
                 id: params.storeId,
             },
-            include: {
-                billboards: true,
-                categories: true,
-                colors: true,
-                orders: true,
-                products: true,
-                sizes: true,
-            },
         });
         return NextResponse.json(store);
     } catch (error) {
