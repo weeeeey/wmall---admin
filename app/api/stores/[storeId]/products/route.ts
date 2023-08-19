@@ -70,7 +70,7 @@ export async function GET(req: Request, { params }: IParams) {
         const categoryId = searchParams.get('categoryId') || undefined;
         const sizeId = searchParams.get('sizeId') || undefined;
         const colorId = searchParams.get('colorId') || undefined;
-        const isFeatured = searchParams.get('isFeatured');
+        const isFeatured = searchParams.get('isFeatured') ? true : undefined;
 
         const products = await client.product.findMany({
             where: {
@@ -78,7 +78,7 @@ export async function GET(req: Request, { params }: IParams) {
                 categoryId,
                 sizeId,
                 colorId,
-                isFeatured: isFeatured ? true : undefined,
+                isFeatured,
                 isArchived: false,
             },
             include: {
