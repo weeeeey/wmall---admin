@@ -70,7 +70,12 @@ export async function GET(req: Request, { params }: IParams) {
         const categoryId = searchParams.get('categoryId') || undefined;
         const sizeId = searchParams.get('sizeId') || undefined;
         const colorId = searchParams.get('colorId') || undefined;
-        const isFeatured = searchParams.get('isFeatured') ? true : undefined;
+        let isFeatured;
+        if (searchParams.get('isFeatured') === 'false') {
+            isFeatured = false;
+        } else {
+            isFeatured = true;
+        }
 
         const products = await client.product.findMany({
             where: {
