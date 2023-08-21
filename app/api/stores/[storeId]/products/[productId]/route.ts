@@ -104,6 +104,12 @@ export async function GET(req: Request, { params }: IParams) {
                 storeId: params.storeId,
                 id: params.productId,
             },
+            include: {
+                images: true,
+                category: true,
+                color: true,
+                size: true,
+            },
         });
 
         return NextResponse.json(product);
