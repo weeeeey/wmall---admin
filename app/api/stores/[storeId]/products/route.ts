@@ -73,8 +73,10 @@ export async function GET(req: Request, { params }: IParams) {
         let isFeatured;
         if (searchParams.get('isFeatured') === 'false') {
             isFeatured = false;
-        } else {
+        } else if (searchParams.get('isFeatured') === 'true') {
             isFeatured = true;
+        } else {
+            isFeatured = undefined;
         }
 
         const products = await client.product.findMany({
