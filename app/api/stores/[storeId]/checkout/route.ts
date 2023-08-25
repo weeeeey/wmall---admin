@@ -18,7 +18,7 @@ export async function POST(
     try {
         const { storeId } = params;
         const body = await req.json();
-        const { productIds } = body;
+        const { productIds, orderId } = body;
         if (!productIds || productIds.length === 0) {
             return new NextResponse('Product ids are required', {
                 status: 400,
@@ -34,6 +34,7 @@ export async function POST(
 
         const order = await client.order.create({
             data: {
+                id: orderId,
                 storeId,
                 isPaid: true,
                 orderItems: {
