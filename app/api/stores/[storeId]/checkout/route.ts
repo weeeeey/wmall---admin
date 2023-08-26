@@ -1,9 +1,10 @@
 import client from '@/lib/prismadb';
+import ObjectID from 'bson-objectid';
 import { NextResponse } from 'next/server';
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST,PATCH, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
@@ -18,7 +19,7 @@ export async function POST(
     try {
         const { storeId } = params;
         const body = await req.json();
-        const { productIds, orderId } = body;
+        const { productIds, orderId, phone, address } = body;
         if (!productIds || productIds.length === 0) {
             return new NextResponse('Product ids are required', {
                 status: 400,
@@ -32,11 +33,15 @@ export async function POST(
             },
         });
 
+        const id = ObjectID(orderId).toHexString();
+
         const order = await client.order.create({
             data: {
-                id: orderId,
+                id,
                 storeId,
-                isPaid: true,
+                phone,
+                address,
+                isPaid: false,
                 orderItems: {
                     create: products.map((pro) => ({
                         product: {
@@ -69,5 +74,37 @@ export async function GET(
         return NextResponse.json(order);
     } catch (error) {
         return new NextResponse('Internal error', { status: 500 });
+    }
+}
+
+export async function PATCH(
+    req: Request,
+    { params }: { params: { storeId: string } }
+) {
+    try {
+        const { storeId } = params;
+        if (!storeId) {
+            return new NextResponse('invalid store', { status: 400 });
+        }
+        const body = await req.json();
+        const { orderId, isPaid } = body;
+        if (orderId.length === 0 || !orderId) {
+            return new NextResponse('invalid order data', { status: 401 });
+        }
+        const id = ObjectID(orderId).toHexString();
+
+        const updateOrder = await client.order.update({
+            where: {
+                storeId,
+                id,
+            },
+            data: {
+                isPaid,
+            },
+        });
+
+        return NextResponse.json(updateOrder, { headers: corsHeaders });
+    } catch (error) {
+        return new NextResponse('CHECKOUT_ERROR_PATCH', { status: 500 });
     }
 }
