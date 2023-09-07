@@ -2,6 +2,10 @@
 
 Next.js 13 App Router, React, Tailwind, Prisma, MySQL
 
+## Video
+
+[![Video Label](http://img.youtube.com/vi/-Snlr2dZY4g/0.jpg)](https://youtu.be/-Snlr2dZY4g)
+
 ## Key Features:
 
 -   We will be using Shadcn UI for the Admin!
