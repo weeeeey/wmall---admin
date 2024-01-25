@@ -5,8 +5,6 @@ import { ClerkProvider } from '@clerk/nextjs';
 import ModalProvider from '@/providers/modal-provider';
 import ToasterProvider from '@/providers/toast-provider';
 
-import Script from 'next/script';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

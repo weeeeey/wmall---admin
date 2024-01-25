@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Page from '../app/page';
+import RootLayout from '../app/layout';
 
 describe('Page', () => {
     it('renders a heading', () => {
-        render(<Page />);
+        render(<RootLayout />);
 
         const heading = screen.getByRole('heading', { level: 1 });
 
